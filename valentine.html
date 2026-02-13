@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2299.7">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 15.0px 'Helvetica Neue'; color: #ffffff}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 15.0px 'Helvetica Neue'; color: #ffffff; min-height: 17.0px}
+  </style>
+</head>
+<body>
+<p class="p1">{ text: "Thomas Mraz — Не знал", category: "songs", color: "#7400b8" },</p>
+<p class="p2"><br></p>
+<p class="p1">{ text: "Экспедиция оффроуд 🚙", category: "memories", color: "#00b4d8" },</p>
+<p class="p1">{ text: "Скала в Осетии", category: "memories", color: "#48cae4" },</p>
+<p class="p1">{ text: "Осенние прогулки и разговоры о будущем", category: "memories", color: "#00b4d8" },</p>
+<p class="p1">{ text: "Крыльцо «Две будки»", category: "memories", color: "#48cae4" },</p>
+<p class="p1">{ text: "Четыре свадьбы в Геленджике", category: "memories", color: "#00b4d8" },</p>
+<p class="p1">{ text: "Поездка за Чикой", category: "memories", color: "#48cae4" },</p>
+<p class="p1">{ text: "Танцы на Adriatique до утра", category: "memories", color: "#00b4d8" },</p>
+<p class="p2"><br></p>
+<p class="p1">{ text: "Домик в лесу с баней 🌲", category: "plans", color: "#52b788" },</p>
+<p class="p1">{ text: "5 км по полю в Рыбном", category: "plans", color: "#74c69d" },</p>
+<p class="p1">{ text: "Танцевать на концерте за границей", category: "plans", color: "#52b788" },</p>
+<p class="p1">{ text: "Искупаться в проруби ❄️", category: "plans", color: "#74c69d" },</p>
+<p class="p1">{ text: "Драться за хинкалю 😄", category: "plans", color: "#52b788" },</p>
+<p class="p1">{ text: "Пиво в «Двух будках» 🍺", category: "plans", color: "#74c69d" },</p>
+<p class="p1">{ text: "Парный массаж", category: "plans", color: "#52b788" },</p>
+<p class="p1">{ text: "Фотосессия в лифте", category: "plans", color: "#74c69d" },</p>
+<p class="p1">{ text: "Пересмотреть «Сопрано»", category: "plans", color: "#52b788" },</p>
+<p class="p1">{ text: "Все горнолыжки мира 🎿", category: "plans", color: "#74c69d" },</p>
+<p class="p1">{ text: "Состариться вместе ❤️", category: "plans", color: "#40916c" }</p>
+<p class="p1">];</p>
+<p class="p2"><br></p>
+<p class="p1">const jar = document.querySelector(".jar");</p>
+<p class="p1">let currentCategory = "love";</p>
+<p class="p1">let musicStarted = false;</p>
+<p class="p2"><br></p>
+<p class="p1">function renderNotes() {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>jar.querySelectorAll(".note").forEach(n =&gt; n.remove());</p>
+<p class="p1"><span class="Apple-converted-space">    </span>notesData.filter(n =&gt; n.category === currentCategory)</p>
+<p class="p1"><span class="Apple-converted-space">    </span>.forEach(note =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const div = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">        </span>div.className = "note";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>div.style.background = note.color;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>div.style.left = Math.random() * 200 + "px";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>div.style.top = Math.random() * 260 + 60 + "px";</p>
+<p class="p1"><span class="Apple-converted-space">        </span>div.onclick = () =&gt; showMessage(note.text);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>jar.appendChild(div);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>});</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function showMessage(text) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const box = document.getElementById("messageBox");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>box.classList.remove("show");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>box.innerText = text;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>box.classList.add("show");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}, 200);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>if (!musicStarted) {</p>
+<p class="p1"><span class="Apple-converted-space">        </span>document.getElementById("bgMusic").play();</p>
+<p class="p1"><span class="Apple-converted-space">        </span>musicStarted = true;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>}</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">function filterNotes(category) {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>currentCategory = category;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.getElementById("messageBox").innerText = "Выбери записку 💌";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>renderNotes();</p>
+<p class="p1">}</p>
+<p class="p2"><br></p>
+<p class="p1">renderNotes();</p>
+<p class="p2"><br></p>
+<p class="p1">/* сердечки */</p>
+<p class="p1">setInterval(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">    </span>const heart = document.createElement("div");</p>
+<p class="p1"><span class="Apple-converted-space">    </span>heart.className = "heart";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>heart.style.left = Math.random() * 100 + "vw";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>heart.innerText = "💙";</p>
+<p class="p1"><span class="Apple-converted-space">    </span>document.body.appendChild(heart);</p>
+<p class="p1"><span class="Apple-converted-space">    </span>setTimeout(() =&gt; heart.remove(), 8000);</p>
+<p class="p1">}, 800);</p>
+<p class="p1">&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1">&lt;/body&gt;</p>
+<p class="p1">&lt;/html&gt;</p>
+</body>
+</html>
