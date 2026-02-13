@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>Для Серени ❤️</title>
+<style>
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(to bottom, #0f1021, #1b1c3a);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-x: hidden;
+}
+
+h1 {
+    margin-top: 30px;
+    font-size: 28px;
+    text-align: center;
+}
+
+.subtitle {
+    font-size: 18px;
+    opacity: 0.8;
+    margin-bottom: 10px;
+}
+
+.categories {
+    margin-top: 15px;
+    text-align: center;
+}
+
+button {
+    margin: 6px;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+    transition: 0.3s;
+}
+
+button:hover { transform: scale(1.1); }
+
+.love { background: #ff4d6d; }
+.jokes { background: #ff9f1c; }
+.songs { background: #5e60ce; }
+.memories { background: #00b4d8; }
+.plans { background: #52b788; }
+
+.jar {
+    position: relative;
+    width: 280px;
+    height: 380px;
+    margin-top: 40px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 140px 140px 50px 50px;
+    border: 4px solid #5e60ce;
+    box-shadow: 0 0 40px rgba(94,96,206,0.5);
+    overflow: hidden;
+}
+
+.lid {
+    width: 300px;
+    height: 55px;
+    background: #5e60ce;
+    border-radius: 25px;
+    position: absolute;
+    top: -35px;
+    left: -10px;
+}
+
+.note {
+    position: absolute;
+    width: 65px;
+    height: 35px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.note:hover {
+    transform: scale(1.2) rotate(6deg);
+}
+
+#messageBox {
+    margin: 30px;
+    width: 85%;
+    max-width: 550px;
+    min-height: 100px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 15px;
+    padding: 25px;
+    backdrop-filter: blur(10px);
+    text-align: center;
+    font-size: 19px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+#messageBox.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Плавающие сердечки */
+.heart {
+    position: fixed;
+    bottom: -20px;
+    font-size: 18px;
+    animation: floatUp 8s linear infinite;
+    opacity: 0.4;
+}
+
+@keyframes floatUp {
+    from { transform: translateY(0); }
+    to { transform: translateY(-110vh); }
+}
+</style>
+</head>
+<body>
+
+<h1>Для Серени ❤️</h1>
+<div class="subtitle">От Сони</div>
+
+<div class="categories">
+    <button class="love" onclick="filterNotes('love')">Люблю тебя, потому что</button>
+    <button class="jokes" onclick="filterNotes('jokes')">Наши шутки</button>
+    <button class="songs" onclick="filterNotes('songs')">Песни</button>
+    <button class="memories" onclick="filterNotes('memories')">А помнишь?</button>
+    <button class="plans" onclick="filterNotes('plans')">Нам нужно сделать это!</button>
+</div>
+
+<div class="jar">
+    <div class="lid"></div>
+</div>
+
+<div id="messageBox">Нажми на записку 💌</div>
+
+<audio id="bgMusic" loop>
+    <source src="siniye-slezy.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+const notesData = [
+{ text: "Ты честный и открытый", category: "love", color: "#ff4d6d" },
+{ text: "Самый заботливый", category: "love", color: "#ff758f" },
+{ text: "Ты рядом даже когда неудобно", category: "love", color: "#ff8fab" },
+{ text: "Крепкий духом и сильный характером", category: "love", color: "#ff4d6d" },
+{ text: "С тобой легко молчать и весело смеяться", category: "love", color: "#ff758f" },
+{ text: "Порядочный и добрый", category: "love", color: "#ff8fab" },
+
+{ text: "Пупочная терапия 😂", category: "jokes", color: "#ff9f1c" },
+{ text: "Резидент ивел", category: "jokes", color: "#ffbf69" },
+{ text: "Ролл Калифорния", category: "jokes", color: "#ff9f1c" },
+{ text: "Игра в камень", category: "jokes", color: "#ffbf69" },
+{ text: "Сведи с ума мелодией 🎶", category: "jokes", color: "#ff9f1c" },
+
+{ text: "Cure — Last Day of Summer", category: "songs", color: "#5e60ce" },
+{ text: "Radiohead — All I Need", category: "songs", color: "#7400b8" },
+{ text: "ATL — Доспехи", category: "songs", color: "#6930c3" },
+{ text: "Баста — Самый чистый кайф", category: "songs", color: "#5e60ce" },
+{ text: "Thomas Mraz — Не знал", category: "songs", color: "#7400b8" },
+
+{ text: "Экспедиция оффроуд 🚙", category: "memories", color: "#00b4d8" },
+{ text: "Скала в Осетии", category: "memories", color: "#48cae4" },
+{ text: "Осенние прогулки и разговоры о будущем", category: "memories", color: "#00b4d8" },
+{ text: "Крыльцо «Две будки»", category: "memories", color: "#48cae4" },
+{ text: "Четыре свадьбы в Геленджике", category: "memories", color: "#00b4d8" },
+{ text: "Поездка за Чикой", category: "memories", color: "#48cae4" },
+{ text: "Танцы на Adriatique до утра", category: "memories", color: "#00b4d8" },
+
+{ text: "Домик в лесу с баней 🌲", category: "plans", color: "#52b788" },
+{ text: "5 км по полю в Рыбном", category: "plans", color: "#74c69d" },
+{ text: "Танцевать на концерте за границей", category: "plans", color: "#52b788" },
+{ text: "Искупаться в проруби ❄️", category: "plans", color: "#74c69d" },
+{ text: "Драться за хинкалю 😄", category: "plans", color: "#52b788" },
+{ text: "Пиво в «Двух будках» 🍺", category: "plans", color: "#74c69d" },
+{ text: "Парный массаж", category: "plans", color: "#52b788" },
+{ text: "Фотосессия в лифте", category: "plans", color: "#74c69d" },
+{ text: "Пересмотреть «Сопрано»", category: "plans", color: "#52b788" },
+{ text: "Все горнолыжки мира 🎿", category: "plans", color: "#74c69d" },
+{ text: "Состариться вместе ❤️", category: "plans", color: "#40916c" }
+];
+
+const jar = document.querySelector(".jar");
+let currentCategory = "love";
+let musicStarted = false;
+
+function renderNotes() {
+    jar.querySelectorAll(".note").forEach(n => n.remove());
+    notesData.filter(n => n.category === currentCategory)
+    .forEach(note => {
+        const div = document.createElement("div");
+        div.className = "note";
+        div.style.background = note.color;
+        div.style.left = Math.random() * 200 + "px";
+        div.style.top = Math.random() * 260 + 60 + "px";
+        div.onclick = () => showMessage(note.text);
+        jar.appendChild(div);
+    });
+}
+
+function showMessage(text) {
+    const box = document.getElementById("messageBox");
+    box.classList.remove("show");
+    setTimeout(() => {
+        box.innerText = text;
+        box.classList.add("show");
+    }, 200);
+
+    if (!musicStarted) {
+        document.getElementById("bgMusic").play();
+        musicStarted = true;
+    }
+}
+
+function filterNotes(category) {
+    currentCategory = category;
+    document.getElementById("messageBox").innerText = "Выбери записку 💌";
+    renderNotes();
+}
+
+renderNotes();
+
+/* сердечки */
+setInterval(() => {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.innerText = "💙";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+}, 800);
+</script>
+
+</body>
+</html>
